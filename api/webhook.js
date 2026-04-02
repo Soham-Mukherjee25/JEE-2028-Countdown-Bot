@@ -1,6 +1,6 @@
-import { getCountdownData, formatDailyMessage } from "../lib/countdown.js";
+const { getCountdownData } = require("../lib/countdown.js");
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(200).json({ ok: true });
   }
@@ -18,7 +18,6 @@ export default async function handler(req, res) {
     if (text === "/countdown" || text.startsWith("/countdown@")) {
       const data = getCountdownData();
       const reply = formatCountdownReply(data);
-
       await sendMessage(chatId, reply);
     }
 
@@ -27,7 +26,7 @@ export default async function handler(req, res) {
     console.error("Webhook error:", err);
     return res.status(200).json({ ok: true });
   }
-}
+};
 
 function formatCountdownReply(data) {
   return (
@@ -43,15 +42,10 @@ function formatCountdownReply(data) {
 async function sendMessage(chatId, text) {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const url = `https://api.telegram.org/bot${token}/sendMessage`;
-
   const response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      chat_id: chatId,
-      text: text,
-    }),
+    body: JSON.stringify({ chat_id: chatId, text: text }),
   });
-
   return response.json();
 }
