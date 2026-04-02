@@ -1,19 +1,17 @@
-import { getCountdownData } from "../lib/countdown.js";
+const { getCountdownData } = require("../lib/countdown.js");
 
-export default async function handler(req, res) {
-  // Secure the cron endpoint
+module.exports = async function handler(req, res) {
   const authHeader = req.headers.authorization;
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return res.status(401).json({ error: "Unauthorized" });
   }
 
   try {
-    const { type } = req.query; // ?type=daily or ?type=weekly
+    const { type } = req.query;
     const chatId = process.env.TELEGRAM_GROUP_ID;
     const data = getCountdownData();
 
     let message = "";
-
     if (type === "weekly") {
       message = formatWeeklyMessage(data);
     } else {
@@ -21,13 +19,12 @@ export default async function handler(req, res) {
     }
 
     await sendMessage(chatId, message);
-
     return res.status(200).json({ ok: true, type, sent: message });
   } catch (err) {
     console.error("Cron error:", err);
     return res.status(500).json({ error: err.message });
   }
-}
+};
 
 function formatDailyMessage(data) {
   return (
@@ -55,15 +52,10 @@ function formatWeeklyMessage(data) {
 async function sendMessage(chatId, text) {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const url = `https://api.telegram.org/bot${token}/sendMessage`;
-
   const response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      chat_id: chatId,
-      text: text,
-    }),
+    body: JSON.stringify({ chat_id: chatId, text: text }),
   });
-
   return response.json();
 }
