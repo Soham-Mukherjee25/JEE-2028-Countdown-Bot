@@ -1,8 +1,7 @@
 {
-  "name": "JEE 2028 Countdown Bot",
+  "name": "jee-2028-countdown-bot",
   "version": "1.0.0",
   "description": "Telegram countdown bot for JEE Circles 2028",
-  "type": "module",
   "scripts": {
     "dev": "vercel dev"
   },
