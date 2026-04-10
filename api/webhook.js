@@ -7,7 +7,6 @@ module.exports = async function handler(req, res) {
 
   try {
     const { message } = req.body;
-
     if (!message || !message.text) {
       return res.status(200).json({ ok: true });
     }
@@ -34,7 +33,7 @@ function formatCountdownReply(data) {
     `📅 Today: ${data.todayFormatted}\n` +
     `🎯 Estimated Target: 20th January 2028\n` +
     `⏳ Days Left: ${data.daysLeft}\n` +
-    `📆 Weeks Left: ${data.weeksLeft} weeks to go\n\n` +
+    `📆 Weeks Left: ${data.weeksLeft} weeks ${data.extraDays > 0 ? `+ ${data.extraDays} day${data.extraDays > 1 ? "s" : ""}` : ""}\n\n` +
     `Keep going. 🔥`
   );
 }
