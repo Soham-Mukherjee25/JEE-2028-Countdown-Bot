@@ -31,8 +31,9 @@ function formatDailyMessage(data) {
     `📅 JEE Main 2028 — Daily Reminder\n\n` +
     `🗓️ Today: ${data.todayFormatted}\n` +
     `⏳ Days Left: ${data.daysLeft}\n` +
-    `📆 Weeks Left: ${data.weeksLeft} weeks to go\n\n` +
+    `📆 Weeks Left: ${data.weeksLeft} weeks ${data.extraDays > 0 ? `+ ${data.extraDays} day${data.extraDays > 1 ? "s" : ""}` : ""}\n\n` +
     `🎯 Estimated Target: 20th January 2028\n\n` +
+    `✅ One more day went. ${data.daysLeft} to go.\n` +
     `Stay consistent. Every day counts.`
   );
 }
@@ -42,9 +43,9 @@ function formatWeeklyMessage(data) {
     `🗓️ Weekly Check-in — JEE Main 2028\n\n` +
     `📅 Today: ${data.todayFormatted}\n` +
     `⏳ Days Left: ${data.daysLeft}\n` +
-    `📆 Weeks Left: ${data.weeksLeft} weeks to go\n\n` +
+    `📆 Weeks Left: ${data.weeksLeft} weeks ${data.extraDays > 0 ? `+ ${data.extraDays} day${data.extraDays > 1 ? "s" : ""}` : ""}\n\n` +
     `🎯 Estimated Target: 20th January 2028\n\n` +
-    `One more week begins today.\n` +
+    `✅ One more week went. ${data.weeksLeft} weeks to go.\n` +
     `Make this one count. 💪`
   );
 }
